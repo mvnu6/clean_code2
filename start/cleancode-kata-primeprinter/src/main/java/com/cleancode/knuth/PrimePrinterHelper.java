@@ -8,18 +8,20 @@ public class PrimePrinterHelper {
     private final int columns = 4;
     private final int ordmax = 30;
     private final int[] multiples = new int[ordmax + 1];
-    private int pagenumber = 1;
-    private int pageoffset = 1;
-    private int rowoffset;
-    private int column;
-    private int candidate = 1;
-    private int primeIndex = 1;
-    private boolean possiblyPrime;
-    private int ord = 2;
-    private int square = 9;
-    private int n = 0;
 
     public void print() {
+        generatePrimes();
+        printPrimes(primes, numberOfPrimes);
+    }
+
+    private void generatePrimes() {
+        int candidate = 1;
+        int primeIndex = 1;
+        boolean possiblyPrime;
+        int ord = 2;
+        int square = 9;
+        int n;
+
         primes[1] = 2;
 
         while (primeIndex < numberOfPrimes) {
@@ -43,23 +45,32 @@ public class PrimePrinterHelper {
             primeIndex++;
             primes[primeIndex] = candidate;
         }
+    }
+
+    private void printPrimes(int[] primes, int numberOfPrimes) {
+        int pagenumber = 1;
+        int pageoffset = 1;
+        int rowoffset;
+        int column;
 
         while (pageoffset <= numberOfPrimes) {
             System.out.print("The First ");
-            System.out.print(Integer.toString(numberOfPrimes));
+            System.out.print(numberOfPrimes);
             System.out.print(" Prime Numbers === Page ");
-            System.out.print(Integer.toString(pagenumber));
+            System.out.print(pagenumber);
             System.out.println("\n");
+
             for (rowoffset = pageoffset; rowoffset <= pageoffset + linesPerPage - 1; rowoffset++) {
-                for (column = 0; column <= columns - 1; column++)
-                    if (rowoffset + column * linesPerPage <= numberOfPrimes)
+                for (column = 0; column <= columns - 1; column++) {
+                    if (rowoffset + column * linesPerPage <= numberOfPrimes) {
                         System.out.printf("%10d", primes[rowoffset + column * linesPerPage]);
+                    }
+                }
                 System.out.println();
             }
             System.out.println("\f");
             pagenumber++;
             pageoffset += linesPerPage * columns;
-
         }
     }
 }
